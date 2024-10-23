@@ -2,8 +2,7 @@ import {  Text, Button } from '@ui-kitten/components';
 import React from 'react';
 import { StyleSheet, Image, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import HomeImage from '../assets/img.png'; // Replace with the actual image
-
+import HomeImage from '../assets/img.png'; 
 const HomeScreen = ({ navigation }) => {
   return (
     <LinearGradient
@@ -36,6 +35,10 @@ const HomeScreen = ({ navigation }) => {
         <Button style={[styles.button, styles.secondaryButton]} size='large' appearance='outline'
         onPress={() => navigation.navigate('Login')}>
           Log in
+        </Button>
+        <Button style={[styles.button, styles.secondaryButton]} size='large' appearance='outline'
+        onPress={() => navigation.navigate('Navigation')}>
+          nav in
         </Button>
       </View>
     </LinearGradient>
