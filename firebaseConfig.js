@@ -1,18 +1,22 @@
-// firebaseConfig.js
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore"; 
+
+
+
+
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDHXJWnb_Xbv_8BUiFPDcRQIma0Oh3l8AY',
-  authDomain: 'counseling-app-28c44.firebaseapp.com',
-  projectId: 'counseling-app-28c44',
-  storageBucket: 'counseling-app-28c44.appspot.com',
-  messagingSenderId: '51959456193',
-  appId: '1:51959456193:android:32b3f5f3c8aab5ad708f40',
+  apiKey: "AIzaSyAL8BYUxLVtc9038WVw0paUf4sYxD3eLJY",
+  authDomain: "counseling-app-28c44.firebaseapp.com",
+  projectId: "counseling-app-28c44",
+  storageBucket: "counseling-app-28c44.appspot.com",
+  messagingSenderId: "51959456193",
+  appId: "1:51959456193:web:53c0bebd361fd129708f40",
+  measurementId: "G-DC0YEGGX99"
 };
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-export const auth = firebase.auth();
+// Initialize Firebase
+export const FIREBASE_APP = initializeApp(firebaseConfig);
+export const FIREBASE_AUTH = getAuth(FIREBASE_APP);
+export const FIRESTORE_DB = getFirestore(FIREBASE_APP);

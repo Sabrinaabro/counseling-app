@@ -36,10 +36,6 @@ const HomeScreen = ({ navigation }) => {
         onPress={() => navigation.navigate('Login')}>
           Log in
         </Button>
-        <Button style={[styles.button, styles.secondaryButton]} size='large' appearance='outline'
-        onPress={() => navigation.navigate('Navigation')}>
-          nav in
-        </Button>
       </View>
     </LinearGradient>
   );
