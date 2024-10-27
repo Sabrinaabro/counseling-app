@@ -13,6 +13,7 @@ import Navbar from './components/Navbar';
 import CounselingScreen from './Screens/CounselingScreen';
 import { onAuthStateChanged } from 'firebase/auth';
 import { FIREBASE_AUTH } from './FirebaseConfig';
+import PsychometricTestScreen from 'Screens/PsychometricTestScreen';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +41,7 @@ const App = () => {
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Payments" component={PaymentsScreen} />
           <Stack.Screen name="Navigation" component={Navbar} />
+          <Stack.Screen name="Test" component={PsychometricTestScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>

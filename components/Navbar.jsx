@@ -36,8 +36,8 @@ const Navbar = () => {
       })}
     >
       <Tab.Screen name="Counseling" component={CounselingScreen} />
-      <Tab.Screen name="Payments" component={PaymentsScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Payments" component={PaymentsScreen} />
     </Tab.Navigator>
   );
 };

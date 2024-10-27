@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { Ionicons } from '@expo/vector-icons';
 import { FIREBASE_AUTH, FIRESTORE_DB } from '../FirebaseConfig';
-import { addDoc, collection } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUpScreen = ({ navigation }) => {
   const [firstName, setFirstName] = useState('');
@@ -15,15 +15,32 @@ const SignUpScreen = ({ navigation }) => {
   const [age, setAge] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const validateInputs = () => {
+    if (!firstName || !lastName || !email || !password || !age) {
+      alert("All fields are required.");
+      return false;
+    }
+    if (isNaN(age) || age < 0) {
+      alert("Age must be a positive number.");
+      return false;
+    }
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters long.");
+      return false;
+    }
+    return true;
+  };
+
   const signUp = async () => {
+    if (!validateInputs()) return;
+
     setLoading(true);
     try {
       const response = await createUserWithEmailAndPassword(FIREBASE_AUTH, email, password);
       console.log(response);
 
-      // Save additional user data to Firestore
-      await addDoc(collection(FIRESTORE_DB, "users"), {
-        uid: response.user.uid,
+      // Save additional user data to Firestore using setDoc for specific UID
+      await setDoc(doc(FIRESTORE_DB, "users", response.user.uid), {
         firstName,
         lastName,
         age,
@@ -40,11 +57,14 @@ const SignUpScreen = ({ navigation }) => {
     }
   };
 
+  const handleGoogleSignUp = () => {
+    alert("Google Sign-Up is currently under construction.");
+    // Implement Google sign-in logic here
+  };
+
   return (
     <LinearGradient colors={['#7BAFD4', '#B9D9EB']} style={styles.gradientBackground}>
-      <Text category="h1" style={styles.heading}>
-        Sign Up
-      </Text>
+      <Text category="h1" style={styles.heading}>Sign Up</Text>
       
       <View style={styles.formContainer}>
         <Input
@@ -101,7 +121,7 @@ const SignUpScreen = ({ navigation }) => {
           appearance='ghost'
           accessoryLeft={() => <Ionicons name="logo-google" size={24} color="#f8a444" />}
           style={styles.googleButton}
-          onPress={() => { /* handle Google sign-up logic */ }}
+          onPress={handleGoogleSignUp}
         >
           Sign Up with Google
         </Button>

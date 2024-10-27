@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, View, Image } from 'react-native';
+import { ScrollView, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import { Layout, Text, Button, Card } from '@ui-kitten/components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { LinearGradient } from 'expo-linear-gradient';
 import { FIRESTORE_DB, FIREBASE_AUTH } from '../FirebaseConfig';
 import { getDoc, doc } from "firebase/firestore";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 
 const CounselingScreen = () => {
   const [userName, setUserName] = useState({ firstName: '', lastName: '' });
   const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
 
   useEffect(() => {
     const fetchUserName = async () => {
       const user = FIREBASE_AUTH.currentUser;
       if (user) {
+        console.log("Current User UID:", user.uid); // Logging the UID for verification
         const userDoc = doc(FIRESTORE_DB, 'users', user.uid);
         try {
           const userSnapshot = await getDoc(userDoc);
@@ -32,6 +36,7 @@ const CounselingScreen = () => {
     };
     fetchUserName();
   }, []);
+  
 
   return (
     <Layout style={styles.container}>
@@ -45,10 +50,10 @@ const CounselingScreen = () => {
               Find a solution for your problem.
             </Text>
             <View style={styles.serviceContainer}>
-              <ServiceButton icon="users" label="Meetup" />
-              <ServiceButton icon="video-camera" label="Video Call" />
-              <ServiceButton icon="heart" label="Couples" />
-              <ServiceButton icon="archive" label="Package" />
+              <ServiceButton icon="handshake" label="Meetup" />
+              <ServiceButton icon="comments" label="Counseling" />
+              <ServiceButton icon="clipboard-list" label="Assessment"  onPress={() => navigation.navigate('Test')} />
+              <ServiceButton icon="dollar-sign" label="Package" />
             </View>
           </View>
         </LinearGradient>
@@ -57,22 +62,22 @@ const CounselingScreen = () => {
             What’s Your Issue?
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
-            <CategoryButton label="Personality" active />
-            <CategoryButton label="Worried" />
-            <CategoryButton label="Parenting" />
-            <CategoryButton label="Relationships" />
+            <CategoryButton label="Medical" active />
+            <CategoryButton label="Engineering" />
+            <CategoryButton label="Arts" />
+            <CategoryButton label="Commerce" />
           </ScrollView>
           <DoctorCard
             imageUrl={require('../assets/ainab.png')}
-            name="Kezia Malista, MD, PsyD"
-            specialties="Stress, anxiety, relationship..."
+            name="Ainab Kazi, Software Engineer"
+            specialties="Stress, anxiety, Future..."
             rating="5.0"
             reviews="80+ reviews"
           />
           <DoctorCard
             imageUrl={require('../assets/sabrina.jpg')}
-            name="Kelly George, MD, PsyD"
-            specialties="Stress, anxiety, relationship..."
+            name="Sabrina Abro, Software Engineer"
+            specialties="Engineering, Maths, AI..."
             rating="5.0"
             reviews="80+ reviews"
           />
@@ -82,15 +87,15 @@ const CounselingScreen = () => {
   );
 };
 
-const ServiceButton = ({ icon, label }) => (
-  <Card style={styles.serviceCard}>
+const ServiceButton = ({ icon, label, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.serviceCard}>
     <View style={styles.iconContainer}>
-      <Icon name={icon} size={24} color="#fff" />
+      <FontAwesome5 name={icon} size={24} color="#fff" />
     </View>
     <Text category="s1" style={styles.label}>
       {label}
     </Text>
-  </Card>
+  </TouchableOpacity>
 );
 
 const CategoryButton = ({ label, active }) => (
@@ -99,18 +104,28 @@ const CategoryButton = ({ label, active }) => (
   </Button>
 );
 
-const DoctorCard = ({ imageUrl, name, specialties, rating, reviews }) => (
-  <Card style={styles.doctorCard}>
-    <View style={styles.doctorInfo}>
-      <Image source={imageUrl} style={styles.doctorImage} />
-      <View>
-        <Text category="s1">{name}</Text>
-        <Text appearance="hint">{specialties}</Text>
-        <Text>{rating} <Icon name="star" color="gold" /> ({reviews})</Text>
-      </View>
-    </View>
-  </Card>
-);
+const DoctorCard = ({ imageUrl, name, specialties, rating, reviews }) => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate('Profile'); 
+  };
+  
+  return (
+    <Card style={styles.doctorCard}>
+      <TouchableOpacity onPress={handlePress} style={{ padding: 10 }}>
+        <View style={styles.doctorInfo}>
+          <Image source={imageUrl} style={styles.doctorImage} />
+          <View>
+            <Text category="s1">{name}</Text>
+            <Text appearance="hint">{specialties}</Text>
+            <Text>{rating} <Icon name="star" color="gold" /> ({reviews})</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </Card>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
