@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 const CounselingScreen = () => {
   const [userName, setUserName] = useState({ firstName: '', lastName: '' });
   const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('Engineering');
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -50,10 +51,10 @@ const CounselingScreen = () => {
               Find a solution for your problem.
             </Text>
             <View style={styles.serviceContainer}>
-              <ServiceButton icon="handshake" label="Meetup" />
-              <ServiceButton icon="comments" label="Counseling" />
+              <ServiceButton icon="handshake" label="Meetup" onPress={() => navigation.navigate('Meetup')}/>
+              <ServiceButton icon="comments" label="Counseling" onPress={() => navigation.navigate('Profile')}/>
               <ServiceButton icon="clipboard-list" label="Assessment"  onPress={() => navigation.navigate('Test')} />
-              <ServiceButton icon="dollar-sign" label="Package" />
+              <ServiceButton icon="dollar-sign" label="Package" onPress={() => navigation.navigate('Payments')}/>
             </View>
           </View>
         </LinearGradient>
@@ -62,10 +63,10 @@ const CounselingScreen = () => {
             What’s Your Issue?
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.categoryScroll}>
-            <CategoryButton label="Medical" active />
-            <CategoryButton label="Engineering" />
-            <CategoryButton label="Arts" />
-            <CategoryButton label="Commerce" />
+            <CategoryButton label="Medical" active={activeCategory === 'Medical'} onPress={() => setActiveCategory('Medical')} />
+            <CategoryButton label="Engineering" active={activeCategory === 'Engineering'} onPress={() => setActiveCategory('Engineering')} />
+            <CategoryButton label="Arts" active={activeCategory === 'Arts'} onPress={() => setActiveCategory('Arts')} />
+            <CategoryButton label="Commerce" active={activeCategory === 'Commerce'} onPress={() => setActiveCategory('Commerce')} />
           </ScrollView>
           <DoctorCard
             imageUrl={require('../assets/ainab.png')}
@@ -73,6 +74,7 @@ const CounselingScreen = () => {
             specialties="Stress, anxiety, Future..."
             rating="5.0"
             reviews="80+ reviews"
+            route="AinabProfile"
           />
           <DoctorCard
             imageUrl={require('../assets/sabrina.jpg')}
@@ -80,6 +82,15 @@ const CounselingScreen = () => {
             specialties="Engineering, Maths, AI..."
             rating="5.0"
             reviews="80+ reviews"
+            route="Profile"
+          />
+           <DoctorCard
+            imageUrl={require('../assets/areeba.jpg')}
+            name="Areeba Hashmi, Software Engineer"
+            specialties="Communication, Foreign Scholarship..."
+            rating="5.0"
+            reviews="80+ reviews"
+            route="AreebaProfile"
           />
         </View>
       </ScrollView>
@@ -98,17 +109,21 @@ const ServiceButton = ({ icon, label, onPress }) => (
   </TouchableOpacity>
 );
 
-const CategoryButton = ({ label, active }) => (
-  <Button style={[styles.categoryButton, active && styles.activeCategoryButton]} size="small">
+const CategoryButton = ({ label, active, onPress }) => (
+  <Button 
+    style={[styles.categoryButton, active && styles.activeCategoryButton]} 
+    size="small" 
+    onPress={onPress}
+  >
     {label}
   </Button>
 );
 
-const DoctorCard = ({ imageUrl, name, specialties, rating, reviews }) => {
+const DoctorCard = ({ imageUrl, name, specialties, rating, reviews, route }) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate('Profile'); 
+    navigation.navigate(route); 
   };
   
   return (
