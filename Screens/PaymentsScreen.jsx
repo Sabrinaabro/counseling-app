@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button, Text, Layout } from '@ui-kitten/components';
-import { LinearGradient } from 'expo-linear-gradient';
 import { FontAwesome } from '@expo/vector-icons';
 
 const PaymentScreen = () => {
@@ -23,137 +22,138 @@ const PaymentScreen = () => {
   const selectedDate = days[selectedDay].date;
 
   return (
-    
-      <Layout style={styles.container}>
-        
-          {/* Time Slots */}
-          <Text category="h6" style={styles.sectionTitle}>Time Slots Available</Text>
-          <View style={styles.timeSlotContainer}>
-            {days.map((dayItem, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[styles.timeCard, selectedDay === index && styles.selectedCard]}
-                onPress={() => setSelectedDay(index)}
-              >
-                <View style={[styles.dayContainer, selectedDay === index && styles.selectedDayContainer]}>
-                  <Text style={selectedDay === index ? styles.selectedDayText : styles.dayText}>
-                    {dayItem.day}
-                  </Text>
-                </View>
-                <View style={styles.dateContainer}>
-                  <Text style={selectedDay === index ? styles.selectedDateText : styles.dateText}>
-                    {dayItem.date}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
+    <Layout style={styles.container}>
 
-          {/* Duration Selection */}
-          <Text category="h6" style={styles.sectionTitle}>Duration you need</Text>
-          <View style={styles.durationContainer}>
-            <TouchableOpacity
-              style={[styles.durationButton, selectedDuration === 0 && styles.selectedDuration]}
-              onPress={() => setSelectedDuration(0)}
-            >
-              <Text style={selectedDuration === 0 ? styles.selectedText : styles.durationText}>60 minutes</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.durationButton, selectedDuration === 1 && styles.selectedDuration]}
-              onPress={() => setSelectedDuration(1)}
-            >
-              <Text style={selectedDuration === 1 ? styles.selectedText : styles.durationText}>120 minutes</Text>
-            </TouchableOpacity>
-          </View>
+      <Text category="h6" style={styles.sectionTitle}>Time Slots Available</Text>
+      <View style={styles.timeSlotContainer}>
+        {days.map((dayItem, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.timeCard, selectedDay === index && styles.selectedCard]}
+            onPress={() => setSelectedDay(index)}
+          >
+            <View style={[styles.dayContainer, selectedDay === index && styles.selectedDayContainer]}>
+              <Text style={selectedDay === index ? styles.selectedDayText : styles.dayText}>
+                {dayItem.day}
+              </Text>
+            </View>
+            <View style={styles.dateContainer}>
+              <Text style={selectedDay === index ? styles.selectedDateText : styles.dateText}>
+                {dayItem.date}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
 
-          {/* Available Time as Buttons */}
-          <Text category="h6" style={styles.sectionTitle}>Available for {selectedDate}</Text>
-          <View style={styles.timeButtonContainer}>
-            {times.map((time, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[styles.timeButton, selectedTime === index && styles.selectedTimeButton]}
-                onPress={() => setSelectedTime(index)}
-              >
-                <Text style={selectedTime === index ? styles.selectedText : styles.timeButtonText}>{time}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+      <Text category="h6" style={styles.sectionTitle}>Duration you need</Text>
+      <View style={styles.durationContainer}>
+        <TouchableOpacity
+          style={[styles.durationButton, selectedDuration === 0 && styles.selectedDuration]}
+          onPress={() => setSelectedDuration(0)}
+        >
+          <Text style={selectedDuration === 0 ? styles.selectedText : styles.durationText}>60 minutes</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.durationButton, selectedDuration === 1 && styles.selectedDuration]}
+          onPress={() => setSelectedDuration(1)}
+        >
+          <Text style={selectedDuration === 1 ? styles.selectedText : styles.durationText}>120 minutes</Text>
+        </TouchableOpacity>
+      </View>
 
-          {/* Media Counseling Options */}
-          <Text category="h6" style={styles.sectionTitle}>Media Counseling</Text>
-          <View style={styles.mediaContainer}>
-            <TouchableOpacity
-              style={[styles.mediaButton, selectedMedia === 'Voice Call' && styles.selectedMedia]}
-              onPress={() => setSelectedMedia('Voice Call')}
-            >
-              <FontAwesome name="phone" size={24} color={selectedMedia === 'Voice Call' ? '#FFFFFF' : '#7BAFD4'} />
-              <Text style={selectedMedia === 'Voice Call' ? styles.selectedText : styles.mediaText}>Voice Call</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.mediaButton, selectedMedia === 'Video Call' && styles.selectedMedia]}
-              onPress={() => setSelectedMedia('Video Call')}
-            >
-              <FontAwesome name="video-camera" size={24} color={selectedMedia === 'Video Call' ? '#FFFFFF' : '#7BAFD4'} />
-              <Text style={selectedMedia === 'Video Call' ? styles.selectedText : styles.mediaText}>Video Call</Text>
-            </TouchableOpacity>
-          </View>
+      <Text category="h6" style={styles.sectionTitle}>Available for {selectedDate}</Text>
+      <View style={styles.timeButtonContainer}>
+        {times.map((time, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.timeButton, selectedTime === index && styles.selectedTimeButton]}
+            onPress={() => setSelectedTime(index)}
+          >
+            <Text style={selectedTime === index ? styles.selectedText : styles.timeButtonText}>{time}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
-          {/* Pricing and Confirm Button */}
-          <Text category="h6" style={styles.sectionTitle}>{getPrice()}</Text>
-          <Button style={styles.confirmButton}>
-            Confirm
-          </Button>
-          
-     
-      </Layout>
-  
+      <Text category="h6" style={styles.sectionTitle}>Media Counseling</Text>
+      <View style={styles.mediaContainer}>
+        <TouchableOpacity
+          style={[styles.mediaButton, selectedMedia === 'Voice Call' && styles.selectedMedia]}
+          onPress={() => setSelectedMedia('Voice Call')}
+        >
+          <FontAwesome name="phone" size={24} color={selectedMedia === 'Voice Call' ? '#FFFFFF' : '#7BAFD4'} />
+          <Text style={selectedMedia === 'Voice Call' ? styles.selectedText : styles.mediaText}>Voice Call</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.mediaButton, selectedMedia === 'Video Call' && styles.selectedMedia]}
+          onPress={() => setSelectedMedia('Video Call')}
+        >
+          <FontAwesome name="video-camera" size={24} color={selectedMedia === 'Video Call' ? '#FFFFFF' : '#7BAFD4'} />
+          <Text style={selectedMedia === 'Video Call' ? styles.selectedText : styles.mediaText}>Video Call</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.priceContainer}>
+        <Text category="h6" style={styles.priceText}>{getPrice()}</Text>
+        <Button style={styles.confirmButton}>
+          Confirm Payment
+        </Button>
+      </View>
+      
+      <Text style={styles.guaranteeText}>
+        <FontAwesome name="check-circle" size={16} color="#777777" /> Your counseling experience is guaranteed safe
+      </Text>
+      
+    </Layout>
   );
 };
 
 const styles = StyleSheet.create({
-  gradientBackground: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     padding: 20,
-  },
-  contentContainer: {
-    paddingBottom: 40,
+    backgroundColor: '#F8F8F8',
+    justifyContent: 'space-between', // This allows the layout to space items properly
   },
   sectionTitle: {
-    marginBottom: 35,
+    marginBottom: 10,
+    marginTop: 10,
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#000000',  // Changed to black
+    alignItems: 'center',
+    color: '#000000',
   },
   timeSlotContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
   },
   timeCard: {
     width: 70,
     height: 100,
-    borderRadius: 10,
+    borderRadius: 12,
     borderColor: '#B9D9EB',
     borderWidth: 1,
     margin: 5,
-    overflow: 'hidden',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   selectedCard: {
-    borderColor: '#7BAFD4',
-    borderWidth: 1,
+    borderColor: '#F8A444',
+    borderWidth: 2,
+    backgroundColor: '#E0F2F1',
   },
   dayContainer: {
-    backgroundColor: '#E0F7E7',
+    backgroundColor: '#E0F7FA',
     width: '100%',
-    paddingVertical: 10,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    paddingVertical: 8,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
     alignItems: 'center',
   },
   selectedDayContainer: {
@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
   },
   selectedDayText: {
     color: '#FFFFFF',
-    fontWeight: 'bold',
   },
   dateContainer: {
     paddingVertical: 10,
@@ -180,18 +179,23 @@ const styles = StyleSheet.create({
   },
   durationContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: 5,
+    justifyContent: 'space-between',
+    marginVertical: 10,
   },
   durationButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
     borderRadius: 20,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#B9D9EB',
-    width: '45%',
+    width: '48%',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   selectedDuration: {
     backgroundColor: '#7BAFD4',
@@ -201,20 +205,25 @@ const styles = StyleSheet.create({
   },
   selectedText: {
     color: '#FFFFFF',
+    fontWeight: 'bold',
   },
   timeButtonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginVertical: 10,
   },
   timeButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
     borderRadius: 20,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#B9D9EB',
-    marginHorizontal: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   selectedTimeButton: {
     backgroundColor: '#7BAFD4',
@@ -225,32 +234,53 @@ const styles = StyleSheet.create({
   mediaContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 10,
+    marginVertical: 20,
   },
   mediaButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 15,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#B9D9EB',
-    width: '45%',
-    alignItems: 'center',
-    flexDirection: 'row',
+    width: '48%',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
   },
   selectedMedia: {
     backgroundColor: '#7BAFD4',
   },
   mediaText: {
     color: '#7BAFD4',
-    marginLeft: 8,
+    marginLeft: 10,
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end', 
+    marginBottom: 20,
+  },
+  priceText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000000',
   },
   confirmButton: {
-    marginTop: 30,
-    borderRadius: 8,
-    backgroundColor: '#7BAFD4',
-    borderColor: '#B9D9EB',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#F8A444',
+  },
+  guaranteeText: {
+    fontSize: 14,
+    color: '#777777',
+    textAlign: 'center',
+    marginTop: 10,
   },
 });
 
